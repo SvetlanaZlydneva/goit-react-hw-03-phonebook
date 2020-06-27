@@ -1,0 +1,29 @@
+.ContactsForm {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.ContactsForm input {
+  width: 100%;
+  line-height: 30px;
+  padding: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.contactName {
+  text-transform: capitalize;
+}
+
+.ContactsForm button {
+  padding: 10px;
+  border-radius: 10px;
+}
+.ContactsForm button:active {
+  background-color: #90ee90;
+}
