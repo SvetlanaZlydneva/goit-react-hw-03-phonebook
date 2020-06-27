@@ -12,11 +12,16 @@ class App extends Component {
     filter: '',
   };
 
-  formSubmitHandler = contact => {
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { id: uuidv4(), ...contact }],
-    }));
-  };
+  componentDidMount() {
+    if (localStorage.getItem('contacts'))
+      this.setState({ contacts: JSON.parse(localStorage.getItem('contacts')) });
+  }
+
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (contacts !== prevState)
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+  }
 
   getContactsName = () => {
     const { contacts } = this.state;
@@ -42,8 +47,14 @@ class App extends Component {
     }));
   };
 
+  formSubmitHandler = contact => {
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { id: uuidv4(), ...contact }],
+    }));
+  };
+
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
     return (
       <Container>
         <Section title="Phonebook">
@@ -52,13 +63,15 @@ class App extends Component {
             issetContacts={this.getContactsName}
           />
         </Section>
-        <Section title="Contacts">
-          <Filter value={filter} onChange={this.changeFilter} />
-          <ContactList
-            contacts={this.getFilteredContacts()}
-            deleteContact={this.deleteContact}
-          />
-        </Section>
+        {contacts.length > 0 && (
+          <Section title="Contacts">
+            <Filter value={filter} onChange={this.changeFilter} />
+            <ContactList
+              contacts={this.getFilteredContacts()}
+              deleteContact={this.deleteContact}
+            />
+          </Section>
+        )}
       </Container>
     );
   }
